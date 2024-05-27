@@ -2,29 +2,34 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
-const port = 3001
+const morgan = require('morgan')
 
+morgan.token('request-body', (request, response) => {
+    return Object.keys(request.body).length ? JSON.stringify(request.body) : ''
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'))
 
 let persons = [
     { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
+        "id": 1,
+        "name": "Arto Hellas", 
+        "number": "040-123456"
     },
     { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
+        "id": 2,
+        "name": "Ada Lovelace", 
+        "number": "39-44-5323523"
     },
     { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
+        "id": 3,
+        "name": "Dan Abramov", 
+        "number": "12-43-234345"
     },
     { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
+        "id": 4,
+        "name": "Mary Poppendieck", 
+        "number": "39-23-6423122"
     }
 ]
 
@@ -69,7 +74,7 @@ app.post('/api/persons', (request, response) => {
             error: 'The name or number is missing: bad data content'
         })
     }
-
+    
     if (persons.find(p => p.name === body.name)) {
         return response.status(400).json({
             error: 'The name already exists in the phonebook: name must be unique'
@@ -81,12 +86,13 @@ app.post('/api/persons', (request, response) => {
         number: body.number,
         id: generateId()
     }
-
+    
     persons = persons.concat(person)
-
+    
     response.json(person)
 })
 
+const port = 3001
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
