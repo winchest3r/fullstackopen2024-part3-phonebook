@@ -1,0 +1,11 @@
+### get all
+
+GET http://localhost:3001/api/persons
+
+### get single existed
+
+GET http://localhost:3001/api/persons/2
+
+### get single not found
+
+GET http://localhost:3001/api/persons/12312321312
