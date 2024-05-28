@@ -1,1 +1,8 @@
+# App folders
 node_modules
+/dist
+
+# CodeSandbox folders
+.codesandbox
+.devcontainer
+.github
