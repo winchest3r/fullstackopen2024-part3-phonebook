@@ -1,5 +1,2 @@
-DELETE http://localhost:3001/api/persons/2
-
-###
-
-DELETE http://localhost:3001/api/persons/12321312
+### Change 'id' to test delete command
+DELETE http://localhost:3001/api/persons/id

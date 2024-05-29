@@ -1,43 +1,22 @@
+require('dotenv').config({ path: '.env.local' });
+
 const express = require("express");
 const app = express();
 app.use(express.json());
-
-app.use(express.static('dist'))
+app.use(express.static('dist'));
 
 const morgan = require("morgan");
-
 morgan.token("request-body", (request, response) => {
   return Object.keys(request.body).length ? JSON.stringify(request.body) : "";
 });
-
 app.use(
   morgan(
-    ":method :url :status :res[content-length] - :response-time ms :request-body",
+    ":date[iso]: :method :url :status :res[content-length] - :response-time ms :request-body ",
   ),
 );
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+const Person = require('./models/person');
+let persons = [];
 
 app.get("/info", (request, response) => {
   const message = `Phonebook has info for ${persons.length} people`;
@@ -45,36 +24,30 @@ app.get("/info", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((p) => p.id === id);
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  Person.findById(request.params.id).then(person => {
+    if (person) {
+      response.json(person);
+    } else {
+      response.status(404).end();
+    }
+  });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((p) => p.id !== id);
-  response.status(204).end();
+  Person.findByIdAndDelete(request.params.id).then(result => {
+    response.status(204).end();
+  })
 });
-
-const generateId = () => {
-  const limit = 1_000_000_000;
-  let result = Math.round(Math.random() * limit);
-  while (persons.find((p) => p.id === result)) {
-    result = Math.round(Math.random() * limit);
-  }
-  return result;
-};
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
+
   if (!body.name || !body.number) {
     return response.status(400).json({
       error: "The name or number is missing: bad data content",
@@ -87,18 +60,17 @@ app.post("/api/persons", (request, response) => {
     });
   }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  };
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  });
 });
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`${new Date().toISOString()}: Server running on port ${port}`);
 });
