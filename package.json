@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/winchest3r/fullstackopen2024-part3-backend#readme",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.4.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
