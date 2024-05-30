@@ -1,13 +1,11 @@
 # Phonebook Backend
 
-Repository for [Full Stack course part 3](https://fullstackopen.com/en/part3/)
+Repository for [Full Stack course part 3](https://fullstackopen.com/en/part3/).
 
-Backend is deployed using [CodeSandbox](https://codesandbox.io/)
+Just get this repository, run `npm install` and add your `MONGODB_URL=mongodb+srv://...` environment variable in `.env.local` file.
 
-Just add this repository and use the current configuration in CodeSandbox Devbox
+Result at the end of part3 (with [frontend from part2](https://github.com/winchest3r/fullstackopen2024/tree/main/part2/phonebook), [mongoDB Atlas](https://www.mongodb.com/atlas), deployed in [CodeSandbox](https://codesandbox.io/)):
 
-![Screenshot 2024-05-28 083532](https://github.com/winchest3r/fullstackopen2024-part3-backend/assets/46186489/fb1751d3-cd79-4099-882e-4868fdf0196b)
+![Screenshot 2024-05-30 144242](https://github.com/winchest3r/fullstackopen2024-part3-phonebook/assets/46186489/97a4ee07-e143-417f-a6e9-ef4ba0d9cd18)
 
-With directly added frontend builded from [part 2](https://github.com/winchest3r/fullstackopen2024/tree/main/part2/phonebook)
-
-![Screenshot 2024-05-28 091559](https://github.com/winchest3r/fullstackopen2024-part3-backend/assets/46186489/30636042-9106-423b-8295-bcaafb0adab6)
+To launch it in CodeSandbox, add this repository there, open CodeSandbox Devbox, add environment variable in settings and use option `use the current configuration`. After that run `dev:3001` preview.
