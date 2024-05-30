@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const url = process.env.MONGODB_URL;
 
 mongoose.connect(url)
-    .then(result => {
+    .then(_result => {
         console.log(`${new Date().toISOString()}: Connected to MongoDB`)
     })
     .catch(error => {

@@ -7,7 +7,7 @@ app.use(express.static('dist'));
 app.use(express.json());
 
 const morgan = require("morgan");
-morgan.token("request-body", (request, response) => {
+morgan.token("request-body", (request, _response) => {
   return Object.keys(request.body).length ? JSON.stringify(request.body) : "";
 });
 app.use(
@@ -49,7 +49,7 @@ app.get("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(_result => {
       response.status(204).end();
     })
     .catch(error => next(error));
